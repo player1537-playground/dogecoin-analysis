@@ -20,3 +20,6 @@ the local repo:
 
 The dependency output that the script outputs should match the one in
 `pom.xml`.
+
+This process is better documented in this
+[Stack Overflow answer](http://stackoverflow.com/a/7623805).
