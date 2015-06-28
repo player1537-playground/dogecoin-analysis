@@ -23,56 +23,14 @@ public class App {
 		app.run();
 	}
 
-	private String getUserAgent(Configuration config) {
-		String userAgentFormat = "java:%s.%s:v%s (by /u/%s)";
-		String userAgent = String.format(userAgentFormat,
-		                                 config.get("project.groupId"),
-		                                 config.get("project.artifactId"),
-		                                 config.get("project.version"),
-		                                 config.get("reddit.username"));
-		System.out.println("User agent: " + userAgent);
-
-		return userAgent;
-	}
-
 	private void run() {
 		Configuration config = Configuration.create();
+		Reddit reddit = new Reddit(config);
 
-		String userAgent = getUserAgent(config);
+		List<Submission> submissions = reddit.byNames("t3_15bfi0");
 
-		HttpRestClient restClient = new PoliteHttpRestClient();
-		restClient.setUserAgent(userAgent);
-
-		User user = new User(restClient,
-		                     config.get("reddit.username"),
-		                     config.get("reddit.password"));
-
-		try {
-			user.connect();
-		} catch (IOException ex) {
-			throw new RuntimeException("Connecting user", ex);
-		} catch (ParseException ex) {
-			throw new RuntimeException("Connecting user", ex);
-		}
-
-		try {
-			Submissions subms = new Submissions(restClient, user);
-
-			List<Submission> submissions = subms.ofSubreddit("dogecoin",
-			                                                 SubmissionSort.TOP,
-			                                                 -1 /* count */,
-			                                                 100 /* limit */,
-			                                                 null /* before */,
-			                                                 null /* after */,
-			                                                 true /* show all */);
-
-			for (Submission submission : submissions) {
-				System.out.println(submission);
-			}
-		} catch (RetrievalFailedException ex) {
-			ex.printStackTrace();
-		} catch (RedditError ex) {
-			ex.printStackTrace();
+		for (Submission s : submissions) {
+			System.out.println(s);
 		}
 	}
 }
