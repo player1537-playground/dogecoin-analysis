@@ -4,7 +4,7 @@ Currently, the project depends on a local version of
 [jReddit](https://github.com/jReddit/jReddit) which is packaged in the
 repository. In order to make this in a format usable with Maven, the
 script
-[install-to-project-repo](https://github.com/nikita-volkov/install-to-project-repo)
+[install-to-project-repo](https://github.com/player1537/install-to-project-repo)
 is used. Once downloaded, running the following command will set up
 the local repo:
 
