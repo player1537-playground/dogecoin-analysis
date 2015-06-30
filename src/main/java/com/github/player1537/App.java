@@ -7,7 +7,6 @@ import com.github.jreddit.entity.User;
 import com.github.jreddit.exception.RedditError;
 import com.github.jreddit.exception.RetrievalFailedException;
 import com.github.jreddit.retrieval.Submissions;
-import com.github.jreddit.retrieval.params.SubmissionSort;
 import com.github.jreddit.utils.restclient.HttpRestClient;
 import com.github.jreddit.utils.restclient.PoliteHttpRestClient;
 
@@ -23,6 +22,16 @@ public class App {
 		app.run();
 	}
 
+	private String toBase36(int id) {
+		return Integer.toString(id, 36);
+	}
+	
+	private int fromBase36(String id) {
+		return Integer.parseInt(id, 36);
+	}
+	
+	/* Sun Dec 8 12:36 */
+
 	private void run() {
 		Configuration config = Configuration.create();
 		Reddit reddit = new Reddit(config);
@@ -32,5 +41,12 @@ public class App {
 		for (Submission s : submissions) {
 			System.out.println(s);
 		}
+		
+		Submission submission = reddit.mostRecentSubmission();
+		System.out.println("Most recent: " 
+		                   + submission.getIdentifier() + " : " 
+		                   + fromBase36(submission.getIdentifier()));
+		
+		System.out.println(reddit.getStartOfSubreddit("dogecoin"));
 	}
 }
